@@ -11,6 +11,8 @@ Configure Cursor's Claude Code extension without assuming the default terminal `
 
 Use a channel letter to keep the work precise. Read only the reference for the channel that matches the user's need. Before entering a channel, tell the user the channel difficulty in plain language.
 
+The concrete paths and shell snippets in this skill are macOS-tested. If the host is not confirmed to be macOS, read `references/platform-policy.md` before running commands or writing files: low-risk read/validate checks may remain executable after resolving platform-native paths, while risky writes must become an explicit change plan with backups and confirmation.
+
 ## Channel Router
 
 | Channel | Difficulty | Need | Read |
@@ -30,17 +32,19 @@ If a request spans multiple needs, execute channels in dependency order: `p -> a
 ## Core Workflow
 
 1. Inspect current state before changing anything:
+   - Platform: macOS, Windows, Linux, or unknown.
    - Cursor CLI: `/Applications/Cursor.app/Contents/Resources/app/bin/cursor`
    - Installed extensions: `cursor --list-extensions --show-versions`
    - Local Claude binary: `which claude`, `claude --version`
    - Cursor user settings: `~/Library/Application Support/Cursor/User/settings.json`
 2. Decide the channel(s), state their difficulty, and read the matching reference file(s).
-3. Run channel `p` before writing files or extension state. Assume the user has a non-bare configuration and preserve unrelated keys.
-4. Prefer Cursor extension settings over modifying the user's normal shell profile.
-5. When a separate provider is needed, prefer a dedicated `CLAUDE_CONFIG_DIR` over overwriting `~/.claude/settings.json`.
-6. Treat permission mode as a separate decision from provider/config loading. Do not enable `bypassPermissions`, dangerous skip prompts, or disabled sandbox merely because channel `b` created a dedicated config.
-7. Verify by simulating Cursor's environment with the configured env vars and the selected model.
-8. Tell the user which surfaces the change affects:
+3. If the platform is not confirmed macOS, read `references/platform-policy.md` and adapt commands before any write.
+4. Run channel `p` before writing files or extension state. Assume the user has a non-bare configuration and preserve unrelated keys.
+5. Prefer Cursor extension settings over modifying the user's normal shell profile.
+6. When a separate provider is needed, prefer a dedicated `CLAUDE_CONFIG_DIR` over overwriting `~/.claude/settings.json`.
+7. Treat permission mode as a separate decision from provider/config loading. Do not enable `bypassPermissions`, dangerous skip prompts, or disabled sandbox merely because channel `b` created a dedicated config.
+8. Verify by simulating Cursor's environment with the configured env vars and the selected model.
+9. Tell the user which surfaces the change affects:
    - backend Claude execution,
    - permission behavior,
    - editor context-menu helper actions,
@@ -51,6 +55,7 @@ If a request spans multiple needs, execute channels in dependency order: `p -> a
 - Never print auth tokens, API keys, OAuth tokens, or GitHub tokens. Redact with `[REDACTED]`.
 - Never replace an entire settings file or manifest just to add one Cursor Claude setting. Inventory, back up, then merge.
 - Do not claim a change is reversible unless a timestamped backup, manifest source, or scripted inverse/replay path exists.
+- Do not run macOS-specific write commands on non-macOS. Use `references/platform-policy.md` to separate executable checks from proposed writes.
 - Do not edit extension cache files unless channel `c` concludes the official UI cannot expose the required models any other way.
 - If patching extension files, create a backup beside the patched file and state that a Cursor/extension update may overwrite the patch.
 - Do not enable `bypassPermissions`, dangerous skip prompts, `claudeCode.allowDangerouslySkipPermissions`, or `sandbox.enabled=false` without explicit user consent after explaining the effect.

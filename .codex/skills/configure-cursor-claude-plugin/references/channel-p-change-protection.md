@@ -4,6 +4,8 @@ Difficulty: 5.5 medium. The edits are usually simple, but the risk is accidental
 
 Use before any channel writes Cursor settings, Claude config, extension cache files, helper extension manifests, wrappers, launchers, or provider command state.
 
+If the platform is not confirmed macOS, first read `platform-policy.md` and decide which steps can remain executable and which must become a proposed change plan.
+
 ## Inventory First
 
 Assume the user already has meaningful configuration. Before changing anything, inventory the surfaces that may be read or written:
@@ -17,6 +19,7 @@ Assume the user already has meaningful configuration. Before changing anything, 
 4. The official Claude Code extension directory and webview bundle.
 5. Any local helper extension directory and Cursor extension registry entry.
 6. Wrapper, launcher, shell function, or provider command that supplies env vars or model facts.
+7. Platform-specific path and permission semantics, especially when the host is not macOS.
 
 Print only non-secret values. Redact tokens and API keys.
 

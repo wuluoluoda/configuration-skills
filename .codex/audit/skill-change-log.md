@@ -11,6 +11,7 @@
 - Name history:
   - configure-cursor-claude-plugin (observed by codex-audit-log)
 - Lifecycle history:
+  - active (2026-06-14T23:26:29+08:00): User requested a skill plus platform reference, preserving executable checks where safe and using natural-language plans for potentially harmful non-macOS writes.
   - active (2026-06-14T23:18:20+08:00): User requested the public configuration-skills repository be synchronized with the reviewed current skill.
   - active (2026-06-14T22:54:41+08:00): User requested a sibling configuration repository and public GitHub project to host this skill for later use.
   - active (observed by codex-audit-log)
@@ -48,4 +49,20 @@
 - Reason: User requested the public configuration-skills repository be synchronized with the reviewed current skill.
 - Verification: Validated SKILL.md frontmatter; ran scan_skill_paths.py with zero findings; node --check passed for included scripts.
 - Rollback: Revert this commit or restore the previous configure-cursor-claude-plugin tree from Git history.
+
+#### 2026-06-14T23:26:29+08:00 Add cross-platform policy to Cursor Claude skill
+
+- Kind: skill
+- Scope: project
+- Skill: configure-cursor-claude-plugin
+- Lifecycle: active
+- Entry ID: 20260614232629-add-cross-platform-policy-to-cursor-claude-skill
+- Project: /Users/wuluoluo/work/code.codex.org/configuration.org
+- Thread: 019ec6ab-9f38-7233-ad10-8fade467f55d
+- Thread title: 把本机cursor安装一个claude code
+- Files: /Users/wuluoluo/work/code.codex.org/configuration.org/.codex/skills/configure-cursor-claude-plugin/SKILL.md,/Users/wuluoluo/work/code.codex.org/configuration.org/.codex/skills/configure-cursor-claude-plugin/references/channel-p-change-protection.md,/Users/wuluoluo/work/code.codex.org/configuration.org/.codex/skills/configure-cursor-claude-plugin/references/platform-policy.md
+- Summary: Added a platform policy reference that treats macOS as the tested executable implementation and requires non-macOS hosts to keep low-risk checks executable while converting risky writes into confirmed change plans.
+- Reason: User requested a skill plus platform reference, preserving executable checks where safe and using natural-language plans for potentially harmful non-macOS writes.
+- Verification: Validated SKILL.md frontmatter; ran scan_skill_paths.py with zero findings; node --check passed for included scripts.
+- Rollback: Revert this commit or remove references/platform-policy.md and the platform-policy mentions in SKILL.md and channel-p-change-protection.md.
 

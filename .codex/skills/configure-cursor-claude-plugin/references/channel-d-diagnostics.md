@@ -2,6 +2,8 @@
 
 Use after a configuration change when the user says it did not work.
 
+Difficulty: 5.5 medium. Expect to check logs, settings, session files, extension cache, and UI reload state instead of trusting one static file.
+
 ## Diagnose In Layers
 
 1. **Extension installed**
@@ -35,9 +37,25 @@ Use after a configuration change when the user says it did not work.
 6. **Webview UI cache**
    If backend works but UI is wrong, close all Claude Code webview tabs and run `Developer: Reload Window`.
 
+## Failure Regression Self-Check
+
+When a skill run completed but the user says it had no effect, first check whether the previously changed surface was replaced, reinterpreted, or deregistered:
+
+1. **Disposable webview patch**
+   - Official Claude Code extension upgrades can create a new versioned extension directory.
+   - If the model menu or webview behavior reverted, locate the active `anthropic.claude-code-*` directory and confirm the patched marker or expected model IDs still exist in its webview bundle.
+   - If missing, use channel `g` to replay the webview/model-menu patch, then reload Cursor.
+2. **Schema-sensitive Claude CLI settings**
+   - Claude CLI upgrades may keep the same dedicated config file but change how `availableModels`, `fallbackModel`, `permissions`, `sandbox`, or `hooks` are interpreted.
+   - If backend behavior changed without an obvious Cursor settings change, re-run a minimal backend probe under Cursor's env and inspect Claude logs/session metadata for the active model and permission mode.
+3. **Registry-sensitive helper extension**
+   - The helper extension directory may still exist while Cursor's `extensions.json` no longer registers it.
+   - If editor context-menu actions disappear or do nothing, verify both the helper `package.json` contribution points and Cursor's extension registry entry before editing command code.
+
 ## Common Conclusions
 
 - Backend works but menu lacks models: use channel `c`.
 - Menu patched but unchanged: old webview is still loaded; reload Cursor.
 - Wrong endpoint: `claudeCode.environmentVariables` missing or old Cursor window inherited stale settings.
 - Wrong `claude`: `claudeCode.claudeProcessWrapper` points to a shim or wrapper that the extension does not use as expected.
+- Helper commands installed but absent from menus: Cursor registry lost the helper registration or the menu `when`/`group` no longer matches the active editor context; use channel `f`, then channel `g` if an upgrade likely caused it.

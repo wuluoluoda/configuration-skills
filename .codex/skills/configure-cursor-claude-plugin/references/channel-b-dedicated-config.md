@@ -2,6 +2,10 @@
 
 Use when Cursor should load a different Claude Code configuration than normal terminal `claude`.
 
+Difficulty: 5.5 medium. The main risk is merging env/settings into a non-bare user configuration without overwriting unrelated keys.
+
+Before writing Cursor user settings or a dedicated Claude config, run channel `p`.
+
 ## Preferred Pattern
 
 Create a dedicated config directory and make Cursor pass it through `claudeCode.environmentVariables`:
@@ -18,6 +22,12 @@ Create a dedicated config directory and make Cursor pass it through `claudeCode.
 ```
 
 Put a `settings.json` in the dedicated config directory. Copy only stable user preferences from `~/.claude/settings.json`; avoid blindly copying stale sessions, caches, or credentials.
+
+## Merge Discipline
+
+When updating `claudeCode.environmentVariables`, merge entries by `name` and preserve unrelated env vars. If an existing name has a different value, report the conflict before replacing it unless the user already explicitly asked for that exact replacement.
+
+When writing the dedicated `settings.json`, start from the intended minimal keys for Cursor Claude Code. Do not copy permission, sandbox, hook, MCP, credential, or session blocks from the default Claude config unless the user explicitly asked for those behaviors and the relevant channel has been applied.
 
 ## Why Not Just Use A Wrapper?
 

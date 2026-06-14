@@ -2,6 +2,8 @@
 
 Use with channel `b` or `c` when the intended Claude Code provider is Volcano Ark Coding Plan.
 
+Difficulty: 5.5 easy when the provider facts are already known. Keep provider-specific values here and let channels `b`, `c`, and `e` own generic Cursor behavior.
+
 This reference is specifically for migrating a Claude Code setup that is normally loaded by a `volcano` command, shell function, wrapper, or profile into Cursor's Claude Code extension settings. Treat the `volcano` launcher as evidence: inspect what provider env vars, config directory, default model, and model IDs it produces, then pass those provider-specific facts into the generic Cursor channels.
 
 Do not put generic Cursor model-menu logic here. Channel `c` owns model loading and model-menu exposure for every provider; this file only names the Volcano values that channel `b` or `c` may need.

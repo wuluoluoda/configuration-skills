@@ -2,6 +2,8 @@
 
 Use when Cursor does not have the official Claude Code extension, the wrong CLI is being used, or the user asks to "install Claude Code in Cursor".
 
+Difficulty: 5.5 easy. This is mostly official extension install/verify work unless it also writes settings, in which case run channel `p`.
+
 ## Procedure
 
 1. Resolve the real Cursor IDE CLI:

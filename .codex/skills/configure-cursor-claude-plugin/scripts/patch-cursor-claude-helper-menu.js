@@ -45,7 +45,8 @@ function main() {
     throw new Error(`Missing package.json: ${packagePath}`);
   }
 
-  const json = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+  const before = fs.readFileSync(packagePath, "utf8");
+  const json = JSON.parse(before);
   const menu = json.contributes?.menus?.["editor/context"];
   if (!Array.isArray(menu)) {
     throw new Error(`No contributes.menus["editor/context"] array in ${packagePath}`);
@@ -64,9 +65,18 @@ function main() {
     throw new Error(`Missing editor/context command entries: ${missing.join(", ")}`);
   }
 
-  fs.writeFileSync(packagePath, `${JSON.stringify(json, null, 2)}\n`);
+  const after = `${JSON.stringify(json, null, 2)}\n`;
+  if (after === before) {
+    console.log(`Already updated: ${packagePath}`);
+  } else {
+    const stamp = new Date().toISOString().replace(/[-:T.Z]/g, "").slice(0, 14);
+    const backupPath = `${packagePath}.bak-helper-menu-${stamp}`;
+    fs.copyFileSync(packagePath, backupPath);
+    fs.writeFileSync(packagePath, after);
+    console.log(`Updated ${args.commands.length} editor context menu item(s) in ${packagePath}`);
+    console.log(`Backup: ${backupPath}`);
+  }
   JSON.parse(fs.readFileSync(packagePath, "utf8"));
-  console.log(`Updated ${args.commands.length} editor context menu item(s) in ${packagePath}`);
 }
 
 try {

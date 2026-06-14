@@ -2,6 +2,8 @@
 
 Use when the user asks to turn on/off bypass permissions, allow dangerous skip prompts, reduce permission prompts, or audit whether Cursor Claude Code is running with broad tool permissions.
 
+Difficulty: technically easy but high risk. This channel changes the safety boundary, not just user-interface prompt frequency.
+
 This channel is intentionally separate from channel `b`. Loading a dedicated provider config does not imply that Cursor should also run with bypass permissions.
 
 ## Surfaces To Inspect
@@ -34,14 +36,31 @@ The dedicated Claude `settings.json` may include:
 ## Decision Rules
 
 - Default posture: report the current permission mode before changing it.
-- Only enable `bypassPermissions` when the user explicitly asks for fewer prompts, trusted local workflows, or parity with an existing trusted Claude Code profile.
+- `bypassPermissions` is not ordinary "fewer popups". It lets Claude Code run available tools without the usual tool confirmations.
+- `skipDangerousModePermissionPrompt` skips the dangerous-mode reminder.
+- `sandbox.enabled=false` further widens the local command, file, or network boundary when the Claude Code version honors sandbox settings.
+- Do not treat "make it work", "use another config", "load this provider", or "reduce friction" as consent to broad execution.
+- Only enable broad bypass behavior after explaining these effects and receiving explicit user consent for the specific setting(s).
 - Prefer narrower allowlists or project-local permissions when the user's goal is only to reduce repeated prompts for known safe tools.
 - Do not copy permission blocks from the normal `~/.claude/settings.json` into a Cursor-specific config without calling out the broader execution surface.
 - If sandbox is disabled, say that this affects local command/file/network safety boundaries, not just UX prompts.
 
+## Consent Gate
+
+Do not enable any of the following without explicit consent after the warning above:
+
+- `permissions.defaultMode = "bypassPermissions"`
+- `skipDangerousModePermissionPrompt = true`
+- `permissions.skipDangerousModePermissionPrompt = true`
+- `claudeCode.allowDangerouslySkipPermissions = true`
+- `claudeCode.initialPermissionMode = "bypassPermissions"`
+- `sandbox.enabled = false`
+
+If the user has not consented, stop before writing those keys and offer the safer mode instead.
+
 ## Apply
 
-To enable broad bypass behavior in the selected Cursor Claude config:
+Only after the consent gate passes, enable broad bypass behavior in the selected Cursor Claude config:
 
 ```json
 {

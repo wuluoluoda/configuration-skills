@@ -6,7 +6,11 @@ Use when the official Cursor Claude Code extension works, but the user wants edi
 - copying a file/line/column selection reference,
 - changing where those helper actions appear in the editor context menu.
 
+Difficulty: 5.5 medium. Manifest edits are simple, but Cursor menu contribution caching and real UI placement need verification.
+
 This channel is for local helper extensions and menu contributions. It does not configure provider environment variables, model lists, or permission mode.
+
+Run channel `p` before modifying a helper extension `package.json`, extension JavaScript, or Cursor extension registry entry.
 
 ## Preferred Pattern
 
@@ -49,7 +53,9 @@ node scripts/patch-cursor-claude-helper-menu.js \
   --command "example.copySelectionReference"
 ```
 
-The script updates `contributes.menus["editor/context"]` entries for the selected commands, assigns sequential `@1`, `@2`, etc. ordering inside the requested group, and parses the resulting JSON.
+The script updates `contributes.menus["editor/context"]` entries for the selected commands, assigns sequential `@1`, `@2`, etc. ordering inside the requested group, creates a timestamped `package.json` backup before writing, and parses the resulting JSON.
+
+If Cursor's extension registry lost the helper entry, restore registration or reinstall the helper before changing command code.
 
 ## Verification
 

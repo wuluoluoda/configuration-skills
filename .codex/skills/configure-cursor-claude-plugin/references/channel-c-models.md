@@ -2,6 +2,10 @@
 
 Use when provider models work from Claude Code but Cursor's Claude Code model selector does not show them.
 
+Difficulty: hard or fragile. Backend model policy is normal settings work, but patching the official webview depends on extension internals and may be overwritten by extension upgrades.
+
+Before writing backend settings or webview bundles, run channel `p`. If a webview patch is used, finish with channel `g` so the replay path is explicit.
+
 ## Key Distinction
 
 Claude Code settings such as `model`, `availableModels`, and `enforceAvailableModels` can affect backend selection and policy. The Cursor webview model menu may still render only `claudeConfig.models` returned by Claude Code initialization.
@@ -23,6 +27,8 @@ In the dedicated config directory's `settings.json`, include:
   "fallbackModel": ["provider-default-model"]
 }
 ```
+
+Merge these keys into the dedicated config instead of replacing the whole file. Preserve unrelated keys and report conflicts before replacing existing model policy values.
 
 ## UI Menu Patch Last Resort
 

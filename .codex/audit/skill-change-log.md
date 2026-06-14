@@ -11,6 +11,7 @@
 - Name history:
   - configure-cursor-claude-plugin (observed by codex-audit-log)
 - Lifecycle history:
+  - active (2026-06-14T23:34:32+08:00): User clarified that hard channels should not imply easy handoff resolution, but instead suggest following the macOS success path and lowering expectations.
   - active (2026-06-14T23:30:15+08:00): User wanted non-macOS failures to suggest a prompt the user can paste into a new AI conversation while preserving the 5.5 difficulty guidance.
   - active (2026-06-14T23:26:29+08:00): User requested a skill plus platform reference, preserving executable checks where safe and using natural-language plans for potentially harmful non-macOS writes.
   - active (2026-06-14T23:18:20+08:00): User requested the public configuration-skills repository be synchronized with the reviewed current skill.
@@ -82,4 +83,20 @@
 - Reason: User wanted non-macOS failures to suggest a prompt the user can paste into a new AI conversation while preserving the 5.5 difficulty guidance.
 - Verification: Validated SKILL.md frontmatter; ran scan_skill_paths.py with zero findings; node --check passed for included scripts.
 - Rollback: Revert the handoff guidance additions in SKILL.md and references/platform-policy.md.
+
+#### 2026-06-14T23:34:32+08:00 Refine non-macOS failure guidance by channel difficulty
+
+- Kind: skill
+- Scope: project
+- Skill: configure-cursor-claude-plugin
+- Lifecycle: active
+- Entry ID: 20260614233432-refine-non-macos-failure-guidance-by-channel-difficulty
+- Project: /Users/wuluoluo/work/code.codex.org/configuration.org
+- Thread: 019ec6ab-9f38-7233-ad10-8fade467f55d
+- Thread title: 把本机cursor安装一个claude code
+- Files: /Users/wuluoluo/work/code.codex.org/configuration.org/.codex/skills/configure-cursor-claude-plugin/SKILL.md,/Users/wuluoluo/work/code.codex.org/configuration.org/.codex/skills/configure-cursor-claude-plugin/references/platform-policy.md
+- Summary: Changed non-macOS failure handling to use fresh-conversation prompts for 5.5 easy/medium channels and expectation-lowering exploratory guidance for hard/fragile channels.
+- Reason: User clarified that hard channels should not imply easy handoff resolution, but instead suggest following the macOS success path and lowering expectations.
+- Verification: Validated SKILL.md frontmatter; ran scan_skill_paths.py with zero findings; node --check passed for included scripts.
+- Rollback: Revert the failure-policy wording changes in SKILL.md and references/platform-policy.md.
 

@@ -65,9 +65,11 @@ These actions must become a natural-language change plan with exact files, keys,
 
 For these actions, do not proceed from implied consent. Ask for confirmation after showing the platform-native path and the precise key/value change.
 
-## Non-macOS Failure Handoff
+## Non-macOS Failure Policy
 
-If adaptation fails on Windows, Linux, WSL, a remote container, or an unknown platform, do not keep guessing risky writes. Offer a copyable prompt that the user can paste into a fresh AI conversation. Include only redacted facts and the next concrete goal.
+If adaptation fails on Windows, Linux, WSL, a remote container, or an unknown platform, do not keep guessing risky writes. Respond based on the channel difficulty declared in `SKILL.md`.
+
+For 5.5 easy or 5.5 medium channels, offer a copyable prompt that the user can paste into a fresh AI conversation. Include only redacted facts and the next concrete goal.
 
 Use this shape:
 
@@ -109,6 +111,34 @@ Please resolve the platform-native paths and propose the smallest safe next step
 ```
 
 If the user asks for the agent to keep working in the current conversation instead, continue only with read-only checks or explicitly confirmed write plans.
+
+For hard or fragile channels, lower expectations. Explain that the macOS path is the known successful implementation, while the current platform likely needs exploratory adaptation of extension internals, registry behavior, or UI cache behavior. Suggest using the macOS-tested path as a map rather than promising an equivalent direct fix.
+
+Use this shape:
+
+```text
+This part is marked hard/fragile even for a strong coding model because it depends on Cursor or Claude Code internals that may differ by platform.
+
+Known successful path:
+- macOS-tested surface:
+- Script or patch used successfully:
+- Verification that proved success on macOS:
+
+Current non-macOS facts:
+- OS/distribution:
+- Cursor version:
+- Claude Code CLI version:
+- Resolved extension/settings/helper paths:
+- Redacted failure output:
+
+Recommended expectation:
+- Treat this as exploratory adaptation, not a guaranteed direct port.
+- Start by reproducing the macOS success path conceptually: identify the equivalent active extension bundle, settings surface, registry entry, or UI cache.
+- Make only read-only observations first.
+- If a write is needed, propose exact files, keys, backup path, rollback action, and verification before editing.
+
+Please help adapt this hard/fragile channel from the macOS-tested success path to this platform, and explicitly call out any gaps where the platform behavior is unknown.
+```
 
 ## Channel Notes
 

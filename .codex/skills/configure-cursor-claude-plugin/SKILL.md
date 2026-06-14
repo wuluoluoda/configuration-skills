@@ -13,6 +13,8 @@ Use a channel letter to keep the work precise. Read only the reference for the c
 
 The concrete paths and shell snippets in this skill are macOS-tested. If the host is not confirmed to be macOS, read `references/platform-policy.md` before running commands or writing files: low-risk read/validate checks may remain executable after resolving platform-native paths, while risky writes must become an explicit change plan with backups and confirmation.
 
+If non-macOS adaptation fails or becomes platform-specific beyond the available evidence, offer the user a copyable prompt for a fresh AI conversation using the handoff template in `references/platform-policy.md`.
+
 ## Channel Router
 
 | Channel | Difficulty | Need | Read |
@@ -56,6 +58,7 @@ If a request spans multiple needs, execute channels in dependency order: `p -> a
 - Never replace an entire settings file or manifest just to add one Cursor Claude setting. Inventory, back up, then merge.
 - Do not claim a change is reversible unless a timestamped backup, manifest source, or scripted inverse/replay path exists.
 - Do not run macOS-specific write commands on non-macOS. Use `references/platform-policy.md` to separate executable checks from proposed writes.
+- If a non-macOS attempt fails after reasonable read-only checks, give the user a fresh-conversation prompt instead of guessing risky platform-specific writes.
 - Do not edit extension cache files unless channel `c` concludes the official UI cannot expose the required models any other way.
 - If patching extension files, create a backup beside the patched file and state that a Cursor/extension update may overwrite the patch.
 - Do not enable `bypassPermissions`, dangerous skip prompts, `claudeCode.allowDangerouslySkipPermissions`, or `sandbox.enabled=false` without explicit user consent after explaining the effect.

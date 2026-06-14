@@ -65,6 +65,51 @@ These actions must become a natural-language change plan with exact files, keys,
 
 For these actions, do not proceed from implied consent. Ask for confirmation after showing the platform-native path and the precise key/value change.
 
+## Non-macOS Failure Handoff
+
+If adaptation fails on Windows, Linux, WSL, a remote container, or an unknown platform, do not keep guessing risky writes. Offer a copyable prompt that the user can paste into a fresh AI conversation. Include only redacted facts and the next concrete goal.
+
+Use this shape:
+
+```text
+I am configuring Cursor's Claude Code extension on a non-macOS host.
+
+Platform:
+- OS/distribution:
+- Shell:
+- Cursor version:
+- Claude Code CLI version:
+
+Goal:
+- Configure Cursor Claude Code to use:
+- Provider/config intent:
+- Model/menu/helper/permission behavior needed:
+
+Resolved facts so far:
+- Cursor user settings path:
+- Cursor Claude Code extension directory:
+- Claude launcher path:
+- CLAUDE_CONFIG_DIR or intended dedicated config dir:
+- Existing relevant settings keys, with secrets redacted:
+- Files already backed up:
+
+What failed:
+- Channel attempted:
+- Command or check attempted:
+- Redacted error/output:
+- Whether the failure was read-only, settings merge, extension patch, helper registry, or permission/sandbox related:
+
+Safety constraints:
+- Do not overwrite whole settings files.
+- Preserve unrelated keys and merge env vars by name.
+- Do not enable bypassPermissions, dangerous prompt skipping, allowDangerouslySkipPermissions, or sandbox.enabled=false without explicit consent.
+- For risky writes, first propose exact files, keys, backup path, and rollback action.
+
+Please resolve the platform-native paths and propose the smallest safe next step. Keep low-risk read/validate commands executable, but turn risky writes into a confirmed change plan.
+```
+
+If the user asks for the agent to keep working in the current conversation instead, continue only with read-only checks or explicitly confirmed write plans.
+
 ## Channel Notes
 
 - `a`: install and read-only verification can stay executable; platform-specific CLI path discovery must be resolved first.

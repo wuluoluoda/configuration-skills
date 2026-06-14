@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cursor Claude Config"
+  short_description: "Configure Cursor Claude Code"
+  default_prompt: "Use $configure-cursor-claude-plugin to configure Cursor's Claude Code extension."

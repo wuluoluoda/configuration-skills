@@ -1,0 +1,52 @@
+[
+  {
+    "value": "doubao-seed-2.0-code",
+    "displayName": "Doubao Seed 2.0 Code",
+    "description": "Volcano Coding Plan"
+  },
+  {
+    "value": "doubao-seed-2.0-pro",
+    "displayName": "Doubao Seed 2.0 Pro",
+    "description": "Volcano Coding Plan"
+  },
+  {
+    "value": "doubao-seed-2.0-lite",
+    "displayName": "Doubao Seed 2.0 Lite",
+    "description": "Volcano Coding Plan"
+  },
+  {
+    "value": "doubao-seed-code",
+    "displayName": "Doubao Seed Code",
+    "description": "Volcano Coding Plan"
+  },
+  {
+    "value": "minimax-m2.7",
+    "displayName": "MiniMax M2.7",
+    "description": "Volcano Coding Plan"
+  },
+  {
+    "value": "minimax-m3",
+    "displayName": "MiniMax M3",
+    "description": "Volcano Coding Plan"
+  },
+  {
+    "value": "glm-5.1",
+    "displayName": "GLM 5.1",
+    "description": "Volcano Coding Plan"
+  },
+  {
+    "value": "deepseek-v4-flash",
+    "displayName": "DeepSeek V4 Flash",
+    "description": "Volcano Coding Plan"
+  },
+  {
+    "value": "deepseek-v4-pro",
+    "displayName": "DeepSeek V4 Pro",
+    "description": "Volcano Coding Plan"
+  },
+  {
+    "value": "kimi-k2.6",
+    "displayName": "Kimi K2.6",
+    "description": "Volcano Coding Plan"
+  }
+]

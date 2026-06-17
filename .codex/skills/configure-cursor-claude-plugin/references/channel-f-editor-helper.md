@@ -10,7 +10,7 @@ Difficulty: 5.5 medium. Manifest edits are simple, but Cursor menu contribution 
 
 This channel is for local helper extensions and menu contributions. It does not configure provider environment variables, model lists, or permission mode.
 
-Run channel `p` before modifying a helper extension `package.json`, extension JavaScript, or Cursor extension registry entry.
+Run channel `p` before modifying a helper extension `package.json`, extension JavaScript, Cursor extension registry entry, or Cursor user settings.
 
 ## Preferred Pattern
 
@@ -23,6 +23,14 @@ Keep the helper narrowly scoped:
 - official provider/model/permission behavior stays in channels `b`, `c`, and `e`.
 
 When a helper opens Claude in a side editor group by calling `claude-vscode.editor.open` with `ViewColumn.Beside`, account for the official extension's group-lock side effect. In current Claude Code extension builds, opening a new Claude editor column can run `workbench.action.lockEditorGroup`; if the helper leaves that group locked, later ordinary file clicks may open in a newly created editor group instead of reusing the focused group. After the Claude panel/tab is opened, run `workbench.action.unlockEditorGroup` when available, or instruct the user to unlock the Claude editor group manually before judging normal file-open behavior.
+
+If the user's expected file-open behavior is "each Explorer click accumulates another tab in the same editor group", make sure Cursor preview tabs are disabled. The relevant setting is:
+
+```json
+"workbench.editor.enablePreview": false
+```
+
+Without this setting, ordinary single-clicks use Cursor/VS Code's preview tab and replace the previous preview tab. That can be mistaken for a helper or side-column regression, even when the file is opening in the correct editor group.
 
 ## Menu Grouping
 
@@ -59,6 +67,14 @@ The script updates `contributes.menus["editor/context"]` entries for the selecte
 
 If Cursor's extension registry lost the helper entry, restore registration or reinstall the helper before changing command code.
 
+Use the included script when the desired behavior is tab accumulation instead of preview replacement:
+
+```bash
+node scripts/patch-cursor-editor-tab-behavior.js --accumulate-tabs true
+```
+
+The script merges `workbench.editor.enablePreview=false` into Cursor user settings, creates a timestamped settings backup before writing, and supports `--settings <settings.json>` plus `--dry-run` for nonstandard locations.
+
 ## Verification
 
 1. Parse the helper extension `package.json`.
@@ -70,6 +86,7 @@ If Cursor's extension registry lost the helper entry, restore registration or re
    - they are top-level entries,
    - they are separated from unrelated built-in groups.
 5. After using a side-column Claude helper, click an ordinary project file from Explorer. If Cursor creates a fresh editor group/page, check whether the Claude group is locked and whether the helper unlock step ran.
+6. If ordinary files open but do not accumulate as tabs, parse Cursor user settings and verify `workbench.editor.enablePreview=false`; then click several Explorer files and confirm they appear as separate tabs in the same editor group.
 
 ## Common Conclusions
 
@@ -78,3 +95,4 @@ If Cursor's extension registry lost the helper entry, restore registration or re
 - Helper command works in Command Palette but not context menu: inspect `when` clauses and current editor focus.
 - Opening a new Claude chat works but current-chat insertion does not: official `insertAtMention` may only expose a limited line-level event path; prefer a new-chat helper when exact prompt text must be passed.
 - Ordinary files start opening in a fresh editor group after using the helper: the official Claude editor open path probably locked the side editor group; unlock the group and patch the helper to run `workbench.action.unlockEditorGroup` after `claude-vscode.editor.open`.
+- Ordinary files open in the right editor group but replace each other: Cursor preview tabs are still enabled; set `workbench.editor.enablePreview=false` or run `scripts/patch-cursor-editor-tab-behavior.js --accumulate-tabs true`.
